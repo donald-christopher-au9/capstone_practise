@@ -1,0 +1,80 @@
+.Main_container {
+  margin: 0px 116px;
+  height: 100vh;
+  padding: 0px 20px;
+}
+
+.Register_nav {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 10px;
+}
+.Login_middle {
+  margin: 0px 0px 45px;
+  padding: 73px 0px 90px;
+  display: flex;
+  justify-content: center;
+  justify-content: space-between;
+}
+/* .clear {
+  border: 1px solid black;
+
+  width: 914px;
+  height: 436px;
+  display: flex;
+  justify-content: space-evenly;
+} */
+img {
+  width: 390px;
+  height: 390px;
+  margin-left: 15px;
+}
+.Login_M_Right {
+  border: 1px solid black;
+  width: 400px;
+  height: 436px;
+  padding: 20px 25px;
+}
+.checkbox_remember {
+  display: flex;
+  justify-content: space-between;
+}
+.checkbox_loginotp {
+  margin: 0px 0px 0px 30px;
+}
+.Login_button_jwt {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+}
+.Login_button_fb {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+}
+.Register_container {
+  border: 1px solid black;
+  height: 490px;
+  width: 400px;
+  padding: 20px 25px;
+}
+.Register_header {
+  width: 398px;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+}
+.Register_as_Doctor {
+  display: flex;
+}
+.Register_Mobilenumber {
+  justify-content: space-evenly;
+  display: flex;
+}
+
+.Register_body {
+  width: 398px;
+  height: 430px;
+  border: 1px solid blue;
+}
