@@ -3,43 +3,83 @@ import "./Navbar.css";
 import { GoVerified } from "react-icons/go";
 import { BiChevronDown } from "react-icons/bi";
 import { IoLocationOutline } from "react-icons/io5";
+import { MdCancel } from "react-icons/md";
 import { IoIosSearch } from "react-icons/io";
-import { AiOutlineMenu } from "react-icons/ai";
+import { Link } from "react-router-dom";
+const cityurl = "http://localhost:1111/city/all";
 class Navbar extends Component {
   constructor() {
     super();
     this.state = {
-      displaylist: "none",
-      listdisply: "none",
+      City_searchlist: "none",
+      cancelsearch_city: "none",
+      hospital_searchlist: "none",
+      cancelsearch_hospital: "none",
+      profiledisplay: "none",
+      Cityname: "",
+      specilization: "",
     };
   }
-  displayhandler = () => {
-    const ans = this.state.displaylist === "none" ? "block" : "none";
-    this.setState({ displaylist: ans });
-  };
-  clickhandler = () => {
-    console.log("clicked");
-  };
-  listhandler = () => {
+
+  Citysearchhandler = () => {
+    const ans = this.state.City_searchlist === "none" ? "block" : "none";
+    const cancelsearch_city =
+      this.state.City_searchlist === "none" ? "block" : "none";
     this.setState({
-      listdisply: this.state.listdisply === "none" ? "block" : "none",
+      City_searchlist: ans,
+      cancelsearch_city: cancelsearch_city,
     });
   };
+  hospitalhandler = () => {
+    const hospital_searchlist =
+      this.state.hospital_searchlist === "none" ? "block" : "none";
+    const cancelsearch_hospital =
+      this.state.hospital_searchlist === "none" ? "block" : "none";
+    this.setState({ hospital_searchlist, cancelsearch_hospital });
+  };
+  profilehandler = () => {
+    const ans = this.state.profiledisplay === "none" ? "block" : "none";
+    this.setState({ profiledisplay: ans });
+  };
+  Citynamehandler = (data) => {
+    this.setState({ specilization: data });
+  };
+
+  cityhandler = (data) => {
+    if (data) {
+      return data.map((city) => (
+        <>
+          <li onClick={() => this.Citynamehandler(city.cityname)}>
+            {city.cityname}
+          </li>
+        </>
+      ));
+    }
+  };
+
   render() {
+    console.log(this.state.specilization);
     return (
       <div className="Main_container">
         <div className="Nav_cntainer">
           <div>
-            <img
-              src="https://i2.wp.com/www.cosmoderma.healios.co.in/wp-content/uploads/2019/04/practo.png?fit=1586%2C1057"
-              alt="/"
-            />
+            <Link to="/">
+              <img
+                src="https://i2.wp.com/www.cosmoderma.healios.co.in/wp-content/uploads/2019/04/practo.png?fit=1586%2C1057"
+                alt="/"
+              />
+            </Link>
           </div>
           <div className="Nav_middle">
-            <div className="names">
-              <p>Doctors</p>
-              <small>Book an appoinment</small>
-            </div>
+            <Link
+              to="/doctorlist"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <div className="names">
+                <p>Doctors</p>
+                <small>Book an appoinment</small>
+              </div>
+            </Link>
             <div className="names">
               <p>consult</p>
               <small>Consult with top doctors</small>
@@ -53,14 +93,22 @@ class Navbar extends Component {
               <small>Book tests & checkups</small>
             </div>
           </div>
-          <div className="Menudrop">
-            <AiOutlineMenu
-              className="Menudrop_icon"
-              onClick={this.listhandler}
-            />
+          <div className="Nav_right">
+            <div className="names">
+              <span>For providers</span>
+              <BiChevronDown />
+            </div>
+            <div className="names">
+              <span>Security & help</span>
+              <BiChevronDown />
+            </div>
+            <Link to="/authpage/login">
+              <button>Login / Signup</button>
+            </Link>
+            {/* <span onClick={this.profilehandler} className='Profile_dropdown'>Alfred Richards <BiChevronDown /></span> */}
             <div
-              className="Menudrop_li"
-              style={{ display: this.state.listdisply }}
+              className="profile_list"
+              style={{ display: this.state.profiledisplay }}
             >
               <li>a</li>
               <li>a</li>
@@ -68,72 +116,60 @@ class Navbar extends Component {
               <li>a</li>
             </div>
           </div>
-          <div className="names">
-            <span>For providers</span>
-            <BiChevronDown />
-          </div>
-          <div className="names">
-            <span>Security & help</span>
-            <BiChevronDown />
-          </div>
-          <button>Login / Signup</button>
         </div>
         <hr style={{ color: "grey" }} />
         <div className="Nav2">
           <div className="Nav_inputs">
-            <IoLocationOutline className="icon_city" />
-            <input id="input_1" placeholder="Cityname" />
-            <IoIosSearch className="icon_spec" />
-            <input placeholder="Specisation" />
+            <div className="Nav_input_search" id="city_input">
+              <input placeholder="Cityname" onClick={this.Citysearchhandler} />
+              <IoLocationOutline className="icon_city" />
+              <MdCancel
+                className="City_Inputcancel"
+                style={{ display: this.state.cancelsearch_city }}
+                onClick={this.Citysearchhandler}
+              />
+              <div
+                className="Nav_input_search_list"
+                style={{ display: this.state.City_searchlist }}
+              >
+                {this.cityhandler(this.state.Cityname)}
+                {/* {this.cityhandler(this.state.statename)} */}
+              </div>
+            </div>
+            <div className="Nav_input_search" id="hospital_input">
+              <input placeholder="Specisation" onClick={this.hospitalhandler} />
+              <IoIosSearch className="icon_spec" />
+              <MdCancel
+                className="Hospital_Inputcancel"
+                style={{ display: this.state.cancelsearch_hospital }}
+                onClick={this.hospitalhandler}
+              />
+              <div
+                className="Nav_input_search_list"
+                style={{ display: this.state.hospital_searchlist }}
+              >
+                <li>lkafhasdf</li>
+                <li>lkafhasdf</li>
+                <li>lkafhasdf</li>
+                <li>lkafhasdf</li>
+              </div>
+            </div>
           </div>
           <div className="Nav2_text">
             <span>Fed up of endless wait?</span>
             <p>
-              Look for clinic with Prime
-              <GoVerified className="icons" />{" "}
+              Look for clinic with <strong className="prime">Prime</strong>
+              <GoVerified className="icons" style={{ margin: "5px" }} />{" "}
             </p>
-          </div>
-        </div>
-        <div className="Nav3">
-          <div className="main_Nav3">
-            <div className="dropdowns">
-              <div className="checkbox">
-                <input type="radio" />
-                <label>Video consult</label>
-              </div>
-            </div>
-            <div className="dropdowns">
-              <div className="checkbox">
-                <label>Avaliablity</label>
-              </div>
-            </div>
-            <div className="dropdowns">
-              <div className="checkbox">
-                <label>All filter</label>
-              </div>
-            </div>
-            <div className="dropdowns">
-              <label>Sort by </label>
-              <div className="checkbox" onClick={this.displayhandler}>
-                <label>Relevance</label>
-              </div>
-            </div>
-          </div>
-          <div className="listdrop">
-            <div
-              className="first_drop"
-              style={{ display: this.state.displaylist }}
-            >
-              <li onClick={this.clickhandler}>Earliest</li>
-              <li onClick={this.clickhandler}>price high to low</li>
-              <li onClick={this.clickhandler}>price low to high</li>
-              <li onClick={this.clickhandler}>Year of experience</li>
-              <li onClick={this.clickhandler}>Recommended</li>
-            </div>
           </div>
         </div>
       </div>
     );
+  }
+  componentDidMount() {
+    fetch(cityurl)
+      .then((response) => response.json())
+      .then((res) => this.setState({ Cityname: res }));
   }
 }
 
